@@ -1,0 +1,29 @@
+version: "3"
+services:
+  contenedor-send:
+    build:
+      context: .
+      dockerfile: Dockerfile-send
+    image: mi-proyecto/contenedor-send:latest
+    container_name: contenedor_send
+    depends_on:
+      - servidor-ssh
+    networks:
+      - red-archivos
+    environment:
+      - DESTINO_IP=servidor_ssh
+
+  servidor-ssh:
+    build:
+      context: .
+      dockerfile: Dockerfile-reception
+    image: mi-proyecto/servidor-ssh:latest
+    container_name: servidor_ssh
+    networks:
+      - red-archivos
+    ports:
+      - "2222:22"
+
+networks:
+  red-archivos:
+    driver: bridge

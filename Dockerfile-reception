@@ -1,0 +1,30 @@
+# Dockerfile-recepcion
+FROM kalilinux/kali-rolling
+
+# Forzar el uso del repositorio oficial de Kali Linux
+RUN echo "deb http://http.kali.org/kali kali-rolling main contrib non-free" > /etc/apt/sources.list
+
+# Actualizar los repositorios, instalar ca-certificates, OpenSSH Server y unzip
+RUN apt-get update --fix-missing && \
+    apt-get install -y --no-install-recommends ca-certificates openssh-server unzip && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Crear el directorio para el proceso SSH y configurar el acceso root
+RUN mkdir /var/run/sshd && \
+    echo 'root:centos' | chpasswd && \
+    sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \
+    sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config && \
+    sed -i 's/UsePAM yes/UsePAM no/' /etc/ssh/sshd_config
+
+RUN useradd -m cloud-user && echo 'cloud-user:centos' | chpasswd
+
+# Crear el directorio donde se almacenarán los archivos recibidos
+RUN mkdir -p /home/cloud-user/ejercicio && \
+    chown -R cloud-user:cloud-user /home/cloud-user/ejercicio
+
+# Exponer el puerto SSH para las conexiones entrantes
+EXPOSE 22
+
+# Iniciar el servidor SSH
+CMD ["/usr/sbin/sshd", "-D"]
