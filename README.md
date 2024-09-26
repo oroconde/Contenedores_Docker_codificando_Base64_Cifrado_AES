@@ -3,32 +3,35 @@
 1. **`build`**: Este objetivo construye las imágenes de Docker para ambos contenedores (envío y recepción) utilizando el `docker-compose.yml`. Ejecuta:
     
     `make build`
+
+   Nota: en caso de no levantar los contenedores, ejecutar el siguiente comando para recrear toda la configuración.
+   `docker-compose up --build --force-recreate`
     
-2. **`run`**: Ejecuta los contenedores de envío y recepción en segundo plano. Usa `docker-compose up -d` para iniciarlos. Ejecuta:
+3. **`run`**: Ejecuta los contenedores de envío y recepción en segundo plano. Usa `docker-compose up -d` para iniciarlos. Ejecuta:
     
     `make run`
     
-3. **`stop`**: Detiene y elimina los contenedores en ejecución. Esto cierra ambos contenedores y la red de Docker. Ejecuta:
+4. **`stop`**: Detiene y elimina los contenedores en ejecución. Esto cierra ambos contenedores y la red de Docker. Ejecuta:
     
     `make stop`
     
-4. **`verify`**: Verifica si el archivo ha sido transferido correctamente al contenedor de recepción (`servidor_ssh`). Usa `docker exec` para listar los archivos en el directorio de recepción. Ejecuta:
+5. **`verify`**: Verifica si el archivo ha sido transferido correctamente al contenedor de recepción (`servidor_ssh`). Usa `docker exec` para listar los archivos en el directorio de recepción. Ejecuta:
     
     `make verify`
     
-5. **`shell-ssh`**: Ingresa al contenedor de recepción (`servidor_ssh`) para verificar manualmente los archivos o realizar otras acciones. Ejecuta:
+6. **`shell-ssh`**: Ingresa al contenedor de recepción (`servidor_ssh`) para verificar manualmente los archivos o realizar otras acciones. Ejecuta:
 
     `make shell-ssh`
     
-6. **`clean`**: Elimina todos los contenedores, imágenes, volúmenes y redes asociadas con los servicios definidos en `docker-compose.yml`. Ejecuta:
+7. **`clean`**: Elimina todos los contenedores, imágenes, volúmenes y redes asociadas con los servicios definidos en `docker-compose.yml`. Ejecuta:
     
     `make clean`
     
-7. **`logs-envio`**: Muestra los logs del contenedor de envío (`contenedor_envio`) para verificar la ejecución del script y cualquier problema durante el proceso de envío. Ejecuta:
+8. **`logs-envio`**: Muestra los logs del contenedor de envío (`contenedor_envio`) para verificar la ejecución del script y cualquier problema durante el proceso de envío. Ejecuta:
 
     `make logs-envio`
     
-8. **`logs-ssh`**: Muestra los logs del contenedor de recepción (`servidor_ssh`) para ver las conexiones SSH y la transferencia de archivos. Ejecuta:
+9. **`logs-ssh`**: Muestra los logs del contenedor de recepción (`servidor_ssh`) para ver las conexiones SSH y la transferencia de archivos. Ejecuta:
     
     `make logs-ssh`
     
